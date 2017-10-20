@@ -1,0 +1,12 @@
+/* sample file */int main() {
+	int x = 
+20
+;
+/*
+Foo
+*/
+	if(x>=10){return 1;
+	} else {
+		return 0;
+	}
+}/* foop */

@@ -1,0 +1,8 @@
+cmc
+*.exe
+*.dll
+*.so
+*.dylib
+*.out
+*.test
+*.dump
