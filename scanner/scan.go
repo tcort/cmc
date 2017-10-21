@@ -68,11 +68,11 @@ func scanComment(state *state) (err error) {
 			break
 		}
 	}
-	if found {
-		return nil
-	} else {
+	if !found {
 		return errors.New("Unclosed comment detected", state.filename, state.lineNumber)
 	}
+
+	return nil
 }
 
 func scanKeywordOrID(state *state) (err error) {
