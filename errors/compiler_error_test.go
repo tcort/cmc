@@ -6,8 +6,8 @@ import (
 
 func TestNew(t *testing.T) {
 
-		error := New("message","filename",42)
-		if error.Error() != "ERROR filename:42 message" {
-			t.Errorf("Unexpected output")
-		}
+	error := New("message", "filename", 42)
+	if error.Error() != "ERROR filename:42 message" {
+		t.Errorf("Unexpected output")
+	}
 }
