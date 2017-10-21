@@ -24,22 +24,22 @@ func Scan(filename string, source string) (tokens []Token, err error) {
 		}
 
 		if (state.position+1) < state.length && state.source[state.position:state.position+2] == "/*" {
-			err = scan_comment(&state)
+			err = scanComment(&state)
 			if err != nil {
 				return nil, err
 			}
 		} else if isLetter(state.source[state.position]) {
-			scan_keyword_or_id(&state)
+			scanKeywordOrID(&state)
 			if err != nil {
 				return nil, err
 			}
 		} else if isDigit(state.source[state.position]) {
-			scan_number(&state)
+			scanNumber(&state)
 			if err != nil {
 				return nil, err
 			}
 		} else if isSpecialStartChar(state.source[state.position]) {
-			scan_special(&state)
+			scanSpecial(&state)
 			if err != nil {
 				return nil, err
 			}
@@ -53,7 +53,7 @@ func Scan(filename string, source string) (tokens []Token, err error) {
 	return state.tokens, nil
 }
 
-func scan_comment(state *state) (err error) {
+func scanComment(state *state) (err error) {
 	found := false
 	for state.position = state.position + 1; state.position+1 < state.length; state.position++ {
 		if state.source[state.position] == '\n' {
@@ -75,7 +75,7 @@ func scan_comment(state *state) (err error) {
 	}
 }
 
-func scan_keyword_or_id(state *state) (err error) {
+func scanKeywordOrID(state *state) (err error) {
 	var begin int
 	var end int
 	for begin, end = state.position, state.position; end < state.length && isLetter(state.source[end]); end++ {
@@ -98,7 +98,7 @@ func scan_keyword_or_id(state *state) (err error) {
 	return nil
 }
 
-func scan_number(state *state) (err error) {
+func scanNumber(state *state) (err error) {
 	var begin int
 	var end int
 	for begin, end = state.position, state.position; end < state.length && isDigit(state.source[end]); end++ {
@@ -109,7 +109,7 @@ func scan_number(state *state) (err error) {
 	return nil
 }
 
-func scan_special(state *state) (err error) {
+func scanSpecial(state *state) (err error) {
 
 	specials := map[string]TokenType{
 		"+":  T_PLUS,
