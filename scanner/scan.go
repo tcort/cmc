@@ -82,17 +82,17 @@ func scanKeywordOrID(state *state) (err error) {
 		continue
 	}
 	keywords := map[string]TokenType{
-		"else":   T_ELSE,
-		"if":     T_IF,
-		"int":    T_INT,
-		"return": T_RETURN,
-		"void":   T_VOID,
-		"while":  T_WHILE,
+		"else":   TokenElse,
+		"if":     TokenIf,
+		"int":    TokenInt,
+		"return": TokenReturn,
+		"void":   TokenVoid,
+		"while":  TokenWhile,
 	}
 	if keyword, ok := keywords[state.source[begin:end]]; ok {
 		state.tokens = append(state.tokens, Token{keyword, state.source[begin:end], state.lineNumber})
 	} else {
-		state.tokens = append(state.tokens, Token{T_IDENTIFIER, state.source[begin:end], state.lineNumber})
+		state.tokens = append(state.tokens, Token{TokenIdentifier, state.source[begin:end], state.lineNumber})
 	}
 	state.position = end - 1
 	return nil
@@ -104,7 +104,7 @@ func scanNumber(state *state) (err error) {
 	for begin, end = state.position, state.position; end < state.length && isDigit(state.source[end]); end++ {
 		continue
 	}
-	state.tokens = append(state.tokens, Token{T_NUMBER, state.source[begin:end], state.lineNumber})
+	state.tokens = append(state.tokens, Token{TokenNumber, state.source[begin:end], state.lineNumber})
 	state.position = end - 1
 	return nil
 }
@@ -112,25 +112,25 @@ func scanNumber(state *state) (err error) {
 func scanSpecial(state *state) (err error) {
 
 	specials := map[string]TokenType{
-		"+":  T_PLUS,
-		"-":  T_MINUS,
-		"*":  T_TIMES,
-		"/":  T_DIVIDE,
-		"<":  T_LESS_THAN,
-		"<=": T_LESS_THAN_OR_EQUAL_TO,
-		">":  T_GREATER_THAN,
-		">=": T_GREATER_THAN_OR_EQUAL_TO,
-		"==": T_EQUALS,
-		"!=": T_NOT_EQUALS,
-		"=":  T_ASSIGN,
-		";":  T_END_OF_STATEMENT,
-		",":  T_LIST_SEPARATOR,
-		"(":  T_OPEN_LIST,
-		")":  T_CLOSE_LIST,
-		"[":  T_OPEN_INDEX,
-		"]":  T_CLOSE_INDEX,
-		"{":  T_OPEN_BLOCK,
-		"}":  T_CLOSE_BLOCK,
+		"+":  TokenPlus,
+		"-":  TokenMinus,
+		"*":  TokenTimes,
+		"/":  TokenDivide,
+		"<":  TokenLessThan,
+		"<=": TokenLessThanOrEqualTo,
+		">":  TokenGreaterThan,
+		">=": TokenGreaterThanOrEqualTo,
+		"==": TokenEquals,
+		"!=": TokenNotEquals,
+		"=":  TokenAssign,
+		";":  TokenEndOfStatement,
+		",":  TokenListSeparator,
+		"(":  TokenOpenList,
+		")":  TokenCloseList,
+		"[":  TokenOpenIndex,
+		"]":  TokenCloseIndex,
+		"{":  TokenOpenBlock,
+		"}":  TokenCloseBlock,
 	}
 
 	if state.position+1 < state.length {
