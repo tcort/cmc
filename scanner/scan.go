@@ -4,7 +4,7 @@ import (
 	"github.com/tcort/cmc/errors"
 )
 
-type ScannerState struct {
+type state struct {
 	filename   string
 	source     string
 	tokens     []Token
@@ -15,7 +15,7 @@ type ScannerState struct {
 
 func Scan(filename string, source string) (tokens []Token, err error) {
 
-	state := ScannerState{filename, source, []Token{}, 0, len(source), 1}
+	state := state{filename, source, []Token{}, 0, len(source), 1}
 
 	for state.position = 0; state.position < state.length; state.position++ {
 
@@ -53,7 +53,7 @@ func Scan(filename string, source string) (tokens []Token, err error) {
 	return state.tokens, nil
 }
 
-func scan_comment(state *ScannerState) (err error) {
+func scan_comment(state *state) (err error) {
 	found := false
 	for state.position = state.position + 1; state.position+1 < state.length; state.position++ {
 		if state.source[state.position] == '\n' {
@@ -75,7 +75,7 @@ func scan_comment(state *ScannerState) (err error) {
 	}
 }
 
-func scan_keyword_or_id(state *ScannerState) (err error) {
+func scan_keyword_or_id(state *state) (err error) {
 	var begin int
 	var end int
 	for begin, end = state.position, state.position; end < state.length && isLetter(state.source[end]); end++ {
@@ -98,7 +98,7 @@ func scan_keyword_or_id(state *ScannerState) (err error) {
 	return nil
 }
 
-func scan_number(state *ScannerState) (err error) {
+func scan_number(state *state) (err error) {
 	var begin int
 	var end int
 	for begin, end = state.position, state.position; end < state.length && isDigit(state.source[end]); end++ {
@@ -109,7 +109,7 @@ func scan_number(state *ScannerState) (err error) {
 	return nil
 }
 
-func scan_special(state *ScannerState) (err error) {
+func scan_special(state *state) (err error) {
 
 	specials := map[string]TokenType{
 		"+":  T_PLUS,
