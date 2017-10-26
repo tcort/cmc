@@ -42,3 +42,7 @@ type Token struct {
 	Text       string
 	LineNumber int
 }
+
+func (token *Token) String() string {
+	return token.Text
+}
