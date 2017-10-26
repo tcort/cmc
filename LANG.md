@@ -20,11 +20,11 @@ Conditional execution construct.
 
 Example:
 
-```
+```lang=C
 int x = input();
 if (x < 10) {
     output(1);
-} 
+}
 ```
 
 #### `else`
@@ -33,7 +33,7 @@ Used with `if` for conditional execution.
 
 Example:
 
-```
+```lang=C
 int x = input();
 if (x == 10) {
     output(10);
@@ -48,12 +48,12 @@ Looping construct.
 
 Example:
 
-```
+```lang=C
 int x = 0;
 while (x < 10) {
     output(x);
     x = x + 1;
-} 
+}
 ```
 
 #### `return`
@@ -139,6 +139,8 @@ Integer literals consist of a string of one or more digits. For example, `0`, `2
 Integer literals must be positive numbers. For example, `-42` is not acceptable. As a work around, the expression
 `0 - 42` may be used to represent `-42`.
 
+Integers other than `0` may not begin with `0`. For example, `042` is not allowed.
+
 ### Comments
 
 Comments begin with `/*` and end with `*/`. Comments may not be nested (e.g. `/* foo /* bar */ baz */` is not acceptable).
@@ -147,7 +149,7 @@ OK but `i/*x*/f (x==1)` is not acceptable. Comments may contain new lines.
 
 ### Whitespace
 
-Whitespace consists of spaces (` `), new lines (`\n`), and tabs (`\t`).
+Whitespace consists of spaces, new lines (`\n`), and tabs (`\t`).
 
 Other whitespace characters are not acceptable (e.g. `\r`, `\f`, etc)
 
@@ -181,6 +183,10 @@ Identifiers can only be declared once per scope. For example, two functions cann
 ### Array Subscripts
 
 Arrays must be subscripted except when passing an array as an argument to a function.
+
+### Array Size
+
+Zero length arrays are not allowed.
 
 ### Variable types
 
@@ -221,3 +227,129 @@ detection nor truncation detection.
 
 Outputs an integer value as a string followed by a new line to standard output.
 For example, if `output(42)` were called, `42\n` would be written to standard output.
+
+## Quick Reference
+
+### Tokens
+
+* Identifiers
+  * `[A-Za-z]+`
+* Numbers
+  * `[0-9]+`
+* Keywords
+  * `while`
+  * `if`
+  * `else`
+  * `int`
+  * `void`
+  * `return`
+* Special Characters
+  * `+`
+  * `-`
+  * `*`
+  * `/`
+  * `<`
+  * `<=`
+  * `>`
+  * `>=`
+  * `==`
+  * `!=`
+  * `=`
+  * `;`
+  * `,`
+  * `(`
+  * `)`
+  * `[`
+  * `]`
+  * `{`
+  * `}`
+
+### Grammar
+
+* `Program`
+  * `DeclarationList`
+* `DeclarationList`
+  * `DeclarationList`
+  * `Declaration`
+* `Declaration`
+  * `VarDeclaration`
+  * `FunDeclaration`
+* `VarDeclaration`
+  * `TypeSepcifier` //Identifier// **;**
+  * `TypeSepcifier` //Identifier// **[** //Number// **]** **;**
+* `TypeSpecifier`
+  * **int**
+  * **void**
+* `FunDeclaration`
+  * `TypeSpecifier` //Identifier// **(** `Params` **)** `CompoundStatement`
+* `Params`
+  * `ParamList`
+  * **void**
+* `ParamList`
+  * `ParamList` **,** `Param`
+* `Param`
+  * `TypeSpecifier` //Identifier//
+  * `TypeSpecifier` //Identifier// **[** **]**
+* `CompoundStatement`
+  * **{** `LocalDeclarations` `StatementList` **}**
+* `LocalDeclarations`
+  * `LocalDeclarations` `VarDeclaration`
+  * //empty//
+* `StatementList`
+  * `StatementList` `Statement`
+  * //empty//
+* `Statement`
+  * `ExpressionStatement`
+  * `CompoundStatement`
+  * `SelectionStatement`
+  * `IterationStatement`
+  * `ReturnStatement`
+* `ExpressionStatement`
+  * `Expression` **;**
+  * **;**
+* `SelectionStatement`
+  * **if** **(** `Expression` **)** `Statement`
+  * **if** **(** `Expression` **)** `Statement` **else** `Statement`
+* `IterationStatement`
+  * **while** **(** `Expression` **)** `Statement`
+* `ReturnStatement`
+  * **return** `Expression` **;**
+  * **return** **;**
+* `Expression`
+  * `Var` **=** `Expression`
+  * `SimpleExpression`
+* `SimpleExpression`
+  * `AdditiveExpression` `Relop` `AdditiveExpression`
+  * `AdditiveExpression`
+* `Relop`
+  * **<=**
+  * **<**
+  * **>**
+  * **>=**
+  * **==**
+  * **!=**
+* `AdditiveExpression`
+  * `AdditiveExpression` `Addop` `Term`
+  * `Term`
+* `Addop`
+  * **+**
+  * **-**
+* `Term`
+  * `Term` `Mulop` `Factor`
+  * `Factor`
+* `Mulop`
+  * *****
+  * **/**
+* `Factor`
+  * **(** `Expression` **)**
+  * `Var`
+  * `Call`
+  * //Number//
+* `Call`
+  * //Identifier// **(** `Args` **)**
+* `Args`
+  * `ArgsList`
+  * `Empty`
+* `ArgsList`
+  * `ArgsList` **,** `Expression`
+  * `Expression`
