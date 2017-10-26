@@ -1,10 +1,13 @@
 package main
 
 import (
-	"github.com/tcort/cmc/scanner"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
+
+	"github.com/tcort/cmc/parser"
+	"github.com/tcort/cmc/scanner"
 )
 
 func main() {
@@ -26,7 +29,10 @@ func main() {
 		log.Fatal(err)
 	}
 
-	for _, token := range tokens {
-		log.Printf("%s:%s@%d", token.Type, token.Text, token.LineNumber)
+	program, err := parser.Parse(filename, tokens)
+	if err != nil {
+		log.Fatal(err)
 	}
+
+	fmt.Print(program)
 }
